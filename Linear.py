@@ -87,7 +87,7 @@ try:
             vif.append(variance_inflation_factor(X, i))
         vif_1=pd.DataFrame({'vif': vif}, index=X.columns[:]).T
         st.table(vif_1)
-        st.caption("**If VIF>5 there is a problem multicollinearity**")
+        st.caption("**If VIF>5 there is a problem of multicollinearity**")
     with tab4:
         st.subheader("**Q-Q Plot**",divider='blue')
         fig3 = plt.figure(figsize=(6,4))
@@ -116,9 +116,9 @@ try:
         name = ['F statistic', 'p-value']
         st.table(lzip(name, test))
         if test[1]<0.05:
-            st.subheader("Data is heteroscedatic")
+            st.subheader("Errors are heteroscedatic")
         else:
-            st.subheader("Data is homoscedastic")
+            st.subheader("Errors are homoscedastic")
     with tab6:
         st.subheader("**Autocorrelation Plot**",divider='blue')
         fig5= plt.figure(figsize=(15,6))
