@@ -91,7 +91,8 @@ try:
     with tab4:
         st.subheader("**Q-Q Plot**",divider='blue')
         fig3 = plt.figure(figsize=(6,4))
-        stats.probplot(residual, dist="norm", plot=plt)
+        sms.qqplot(residual, line ='45')
+        #stats.probplot(residual, dist="norm", plot=plt)
         st.pyplot(fig3)
         ## KS Test
         ks=kstest(residual,'norm')
