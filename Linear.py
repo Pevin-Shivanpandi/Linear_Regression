@@ -10,6 +10,7 @@ from statsmodels.compat import lzip
 import statsmodels.stats.api as sms
 from statsmodels.stats.stattools import durbin_watson
 from sklearn.linear_model import LinearRegression
+import statsmodels.api as sm
 showWarningOnDirectExecution = False
 st.set_page_config(
     page_title="Linear Regression",
@@ -91,7 +92,7 @@ try:
     with tab4:
         st.subheader("**Q-Q Plot**",divider='blue')
         fig3 = plt.figure(figsize=(6,4))
-        sms.qqplot(residual, line ='45')
+        sm.qqplot(residual, line ='45')
         #stats.probplot(residual, dist="norm", plot=plt)
         st.pyplot(fig3)
         ## KS Test
