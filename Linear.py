@@ -8,8 +8,10 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 from scipy.stats import kstest
 import statsmodels.stats.api as sms
 from statsmodels.stats.stattools import durbin_watson
+from statsmodels.compat import lzip
 from sklearn.linear_model import LinearRegression
 import statsmodels.api as sm
+showWarningOnDirectExecution = False
 st.set_page_config(
     page_title="Linear Regression",
     page_icon="chart_with_upwards_trend")
