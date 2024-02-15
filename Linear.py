@@ -130,14 +130,14 @@ try:
         st.markdown("**Durbin-Watson value:**")
         st.write(dw)
         if dw < 1.5 and dw > 0 :
-            st.subheader("There is positive autocorrelation")
+            st.subheader("Positive autocorrelation")
         elif dw == 2:
-            st.subheader("There is no autocorrelation")
+            st.subheader("No autocorrelation")
         elif dw>1.85 and dw <2.15:
-            st.subheader("There is Negligible autocorrelation")
+            st.subheader("Negligible autocorrelation")
         elif dw >1.5 and dw < 2.5:
-            st.subheader("There is slight autocorrelation")
+            st.subheader("Slight autocorrelation")
         elif dw >2.5 and dw < 4:
-            st.subheader("There is negative autocorrelation")
+            st.subheader("Negative autocorrelation")
 except:
         st.write("Please load a file to continue... / Click Confirm")
