@@ -17,7 +17,7 @@ st.set_page_config(
     page_icon="chart_with_upwards_trend")
 
 st.title(":red[Linear Regression Assumptions]")
-st.subheader("*Just* *Add* your ***:rainbow[CSV]*** :file_folder:",divider='violet')
+st.subheader("*Just* *Add* your ***:rainbow[File]*** :file_folder:",divider='violet')
 try:
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([":blue[**Data**]", ":blue[**Linearity**]", ":blue[**Multicollinearity**]",":blue[**Normality of Residual**]",":blue[**Homoscedasticity**]",":blue[**Autocorrelation**]"])
     with tab1:
