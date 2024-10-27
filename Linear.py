@@ -6,21 +6,22 @@ import numpy as np
 import scipy.stats as stats
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from scipy.stats import kstest
+from statsmodels.compat import lzip
 import statsmodels.stats.api as sms
 from statsmodels.stats.stattools import durbin_watson
-from statsmodels.compat import lzip
 from sklearn.linear_model import LinearRegression
 import statsmodels.api as sm
 showWarningOnDirectExecution = False
 st.set_page_config(
     page_title="Linear Regression",
     page_icon="chart_with_upwards_trend")
+
 st.title(":red[Linear Regression Assumptions]")
 st.subheader("*Just* *Add* your ***:rainbow[CSV]*** :file_folder:",divider='violet')
 try:
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([":blue[**Data**]", ":blue[**Linearity**]", ":blue[**Multicollinearity**]",":blue[**Normality of Residual**]",":blue[**Homoscedasticity**]",":blue[**Autocorrelation**]"])
     with tab1:
-        spectra = st.file_uploader("upload file", type={"csv"})
+        spectra = st.file_uploader("upload file", type={"csv","xlsx"})
         if spectra is not None:
             spectra_df = pd.read_csv(spectra)
             st.divider()
@@ -70,30 +71,47 @@ try:
                 residual=y-predictions.reshape(-1)
     with tab2:
          st.subheader("**Residual Plot**",divider='blue')
-         fig1 = plt.figure(figsize=(6, 4))
+         fig1 = plt.figure(figsize=(10, 5))
          sns.residplot(data=spectra_df,x=predictions,y=y,lowess=True,line_kws={'color': 'red', 'lw': 1, 'alpha': 1})
          plt.xlabel("Fitted values")
          plt.ylabel("Residual")
          st.pyplot(fig1)
          st.caption("**If the red line is close to the dotted line it means there is linear relationship between the dependent variables and independent variables**")
     with tab3:
-        st.subheader("**Heatmap**",divider='blue')
-        fig2=plt.figure(figsize=(8,6))
-        sns.heatmap(X.corr(),annot=True)
-        st.pyplot(fig2)
-        ##VIF
-        st.subheader("**Variance Inflation Factor**",divider='blue')
-        vif = []
-        for i in range(X.shape[1]):
-            vif.append(variance_inflation_factor(X, i))
-        vif_1=pd.DataFrame({'vif': vif}, index=X.columns[:]).T
-        st.table(vif_1)
-        st.caption("**If VIF>5 there is a problem of multicollinearity**")
+        if X.shape[1]>1:
+            st.subheader("**Heatmap**",divider='blue')
+            fig2=plt.figure(figsize=(8,6))
+            sns.heatmap(X.corr(),annot=True)
+            st.pyplot(fig2)
+            ##VIF
+            st.subheader("**Variance Inflation Factor**",divider='blue')
+            vif = []
+            for i in range(X.shape[1]):
+                vif.append(variance_inflation_factor(X, i))
+            vif_1=pd.DataFrame({'vif': vif}, index=X.columns[:]).T
+            st.table(vif_1)
+            st.caption("**If VIF>5 there is a problem multicollinearity**")
+        else:
+            st.write("There is no problem of Multicollinearity")
     with tab4:
-        st.subheader("**Q-Q Plot**",divider='blue')
-        fig3, ax = plt.subplots()
-        sm.qqplot(residual, ax=ax)
-        st.pyplot(fig3)
+        # Create a QQ plot in Streamlit
+        fig, ax = plt.subplots(figsize=(8, 8))
+        stats.probplot(residual, dist="norm", plot=ax,fit=False)
+
+        # Customize the plot
+        ax.set_title("Normal Q-Q Plot of Residuals", fontsize=16)
+        ax.set_xlabel("Theoretical Quantiles", fontsize=14)
+        ax.set_ylabel("Sample Quantiles", fontsize=14)
+        ax.grid()
+
+        # Add a 45-degree reference line
+        min_val = min(residual)
+        max_val = max(residual)
+        ax.plot([min_val, max_val], [min_val, max_val], color='red', linestyle='--', label='y = x (45-degree line)')
+        # ax.legend()
+
+        # Display the plot in Streamlit
+        st.pyplot(fig)
         ## KS Test
         ks=kstest(residual,'norm')
         st.subheader("**Kolmogorov Smirnov test**",divider='blue')
@@ -102,6 +120,8 @@ try:
             st.subheader("Residual is not normally distributed")
         else:
             st.subheader("Residual is normally distributed")
+        # shapiro_stat, p_value = stats.shapiro(residual)
+        # st.write("p-value:",p_value)
     with tab5:
         model_norm_residuals_abs_sqrt=np.sqrt(np.abs(residual))
         st.subheader("**Scale-Location**",divider='blue')
@@ -117,9 +137,9 @@ try:
         name = ['F statistic', 'p-value']
         st.table(lzip(name, test))
         if test[1]<0.05:
-            st.subheader("Errors are heteroscedatic")
+            st.subheader("Data is heteroscedatic")
         else:
-            st.subheader("Errors are homoscedastic")
+            st.subheader("Data is homoscedastic")
     with tab6:
         st.subheader("**Autocorrelation Plot**",divider='blue')
         fig5= plt.figure(figsize=(15,6))
@@ -130,14 +150,12 @@ try:
         st.markdown("**Durbin-Watson value:**")
         st.write(dw)
         if dw < 1.5 and dw > 0 :
-            st.subheader("Positive autocorrelation")
+            st.subheader("There is positive autocorrelation")
         elif dw == 2:
-            st.subheader("No autocorrelation")
-        elif dw>1.85 and dw <2.15:
-            st.subheader("Negligible autocorrelation")
+            st.subheader("There is no autocorrelation")
         elif dw >1.5 and dw < 2.5:
-            st.subheader("Slight autocorrelation")
+            st.subheader("There is slight autocorrelation")
         elif dw >2.5 and dw < 4:
-            st.subheader("Negative autocorrelation")
+            st.subheader("There is negative autocorrelation")
 except:
         st.write("Please load a file to continue... / Click Confirm")
