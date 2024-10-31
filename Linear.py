@@ -27,7 +27,7 @@ try:
             if spectra.name.endswith(".csv"):
                 spectra_df = pd.read_csv(spectra)
             elif spectra.name.endswith(".xlsx"):
-                spectra_df = pd.read_excel(spectra, engine="openpyxl")
+                spectra_df = pd.read_excel(spectra)
             st.divider()
             st.write("**Data**")
             st.write(spectra_df.head(5))
