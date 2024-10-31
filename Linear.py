@@ -23,7 +23,11 @@ try:
     with tab1:
         spectra = st.file_uploader("upload file", type={"csv","xlsx"})
         if spectra is not None:
-            spectra_df = pd.read_csv(spectra)
+    # Determine file type and read accordingly
+            if spectra.name.endswith(".csv"):
+                df = pd.read_csv(spectra)
+            elif spectra.name.endswith(".xlsx"):
+                df = pd.read_excel(spectra, engine="openpyxl")
             st.divider()
             st.write("**Data**")
             st.write(spectra_df.head(5))
