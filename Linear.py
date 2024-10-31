@@ -24,10 +24,10 @@ try:
         spectra = st.file_uploader("upload file", type={"csv","xlsx"})
         if spectra is not None:
     # Determine file type and read accordingly
-            if spectra.name.endswith(".csv"):
-                spectra_df = pd.read_csv(spectra)
-            elif spectra.name.endswith(".xlsx"):
+            if spectra.name.endswith(".xlsx"):
                 spectra_df = pd.read_excel(spectra)
+            elif spectra.name.endswith(".csv"):
+                spectra_df = pd.read_csv(spectra)
             st.divider()
             st.write("**Data**")
             st.write(spectra_df.head(5))
