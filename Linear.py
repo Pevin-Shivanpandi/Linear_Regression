@@ -26,8 +26,10 @@ try:
     # Determine file type and read accordingly
             if spectra.name.endswith(".xlsx"):
                 spectra_df = pd.read_excel(spectra)
+                st.write("Excel")
             elif spectra.name.endswith(".csv"):
                 spectra_df = pd.read_csv(spectra)
+                st.write("Csv")
             st.divider()
             st.write("**Data**")
             st.write(spectra_df.head(5))
