@@ -57,3 +57,4 @@ urllib3==2.2.0
 validators==0.22.0
 watchdog==4.0.0
 zipp==3.17.0
+openpyxl==3.1.3
