@@ -76,9 +76,9 @@ try:
                 predictions = model.predict(X)
                 residual=y-predictions.reshape(-1)
     with tab2:
-         st.subheader("**Residual Plot**",divider='blue')
          fig1 = plt.figure(figsize=(10, 5))
          sns.residplot(data=spectra_df,x=predictions,y=y,lowess=True,line_kws={'color': 'red', 'lw': 1, 'alpha': 1})
+         st.subheader("**Residual Plot**",divider='blue')
          plt.xlabel("Fitted values")
          plt.ylabel("Residual")
          st.pyplot(fig1)
