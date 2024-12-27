@@ -58,6 +58,9 @@ try:
             st.divider()
             ##
 
+            # Using numeric values 
+            numeric = X.select_dtypes(include='number')
+
             #Convert categorical variables
             dummy=st.multiselect("**Select Categorical Variable**",X.columns[:])
             st.caption("**Skip if you do not want to select anything.**")
@@ -87,14 +90,14 @@ try:
         if X.shape[1]>1:
             st.subheader("**Heatmap**",divider='blue')
             fig2=plt.figure(figsize=(8,6))
-            sns.heatmap(X.corr(),annot=True)
+            sns.heatmap(numeric.corr(numeric_only = True),annot=True)
             st.pyplot(fig2)
             ##VIF
             st.subheader("**Variance Inflation Factor**",divider='blue')
             vif = []
-            for i in range(X.shape[1]):
-                vif.append(variance_inflation_factor(X, i))
-            vif_1=pd.DataFrame({'vif': vif}, index=X.columns[:]).T
+            for i in range(numeric.shape[1]):
+                vif.append(variance_inflation_factor(numeric, i))
+            vif_1=pd.DataFrame({'vif': vif}, index=numeric.columns[:]).T
             st.table(vif_1)
             st.caption("**If VIF>5 there is a problem multicollinearity**")
         else:
