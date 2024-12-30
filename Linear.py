@@ -19,7 +19,7 @@ st.set_page_config(
 st.title(":red[Linear Regression Assumptions]")
 st.subheader("*Just* *Add* your ***:rainbow[File]*** :file_folder:",divider='violet')
 try:
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([":blue[**Data**]", ":blue[**Linearity**]", ":blue[**Multicollinearity**]",":blue[**Normality of Residual**]",":blue[**Homoscedasticity**]",":blue[**Autocorrelation**]"])
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([":blue[**Data**]", ":blue[**Linearity**]", ":blue[**Multicollinearity**]",":blue[**Normality**]",":blue[**Homoscedasticity**]",":blue[**Autocorrelation**]"])
     with tab1:
         spectra = st.file_uploader("upload file", type={"csv","xlsx"})
         if spectra is not None:
