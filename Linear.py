@@ -150,7 +150,7 @@ try:
         else:
             st.subheader("Data is homoscedastic")
     with tab6:
-        st.subheader("**Autocorrelation Plot**",divider='blue')
+        st.subheader("**Residual Vs Observation**",divider='blue')
         fig5= plt.figure(figsize=(15,6))
         plt.plot(residual)
         st.pyplot(fig5)
